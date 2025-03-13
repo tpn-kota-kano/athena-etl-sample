@@ -1,0 +1,13 @@
+services:
+  iac:
+    build:
+      context: .
+      dockerfile: ./.devcontainer/Dockerfile
+    volumes:
+      - ./:/workspace
+      - terraform_cache:/root/.terraform.d/plugin-cache
+    environment:
+      - TF_PLUGIN_CACHE_DIR=/root/.terraform.d/plugin-cache
+    tty: true
+volumes:
+  terraform_cache:

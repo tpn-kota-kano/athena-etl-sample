@@ -1,0 +1,18 @@
+{
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "HashiCorp.terraform"
+      ],
+      "settings": {
+        "[terraform]": {
+          "editor.formatOnSave": true,
+          "editor.defaultFormatter": "hashicorp.terraform"
+        }
+      }
+    }
+  },
+  "dockerComposeFile": "../compose.yaml",
+  "service": "iac",
+  "workspaceFolder": "/workspace"
+}

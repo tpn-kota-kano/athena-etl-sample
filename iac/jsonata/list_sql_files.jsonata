@@ -1,0 +1,24 @@
+{% (
+  $prefix := $INTERMEDIATE_KEY_SQL;
+  $nonDirs := $states.result.Contents[
+    $substring(Key, $length(Key) - 1) != '/'
+  ];
+  $withSplit := $map($nonDirs, function($item) { (
+    $parts := $split($item.Key, $prefix & '/');
+    $cleanKey := $parts[1];
+    $subParts := $split($cleanKey, '/');
+    {
+      "group": $subParts[0],
+      "key": $item.Key,
+      "sql_name": $substringBefore($subParts[$count($subParts) - 1], '.')
+    }
+  )});
+  $groups := $distinct($map($withSplit, function($x) { $x.group }));
+  $groupArrays := $map($groups, function($g) { (
+    $vals := $map(
+      $filter($withSplit, function($x) { $x.group = $g }),
+      function($x) { { "key": $x.key, "sql_name": $x.sql_name } }
+    );
+    $type($vals) = "array" ? $vals : [$vals]
+  )});
+) %}
